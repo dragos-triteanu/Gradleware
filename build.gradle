@@ -1,32 +1,35 @@
+/** Configure the project groupId:artifactId:version **/
 group 'com.smth'
 version '1.0-SNAPSHOT'
 
+/** Configure the plugins that get applied to the project **/
 apply plugin : "java"
 
+/** Configure the repositories **/
 repositories {
     mavenCentral()
 }
 
-
+/** Configure the locations of the sources **/
 sourceSets {
     main.java.srcDir "src/main"
     test.java.srcDir "src/test"
 }
 
-
-/** Configures the jar export properties. In this case, it adds a new attribute in the manifest **/
-jar {
-    manifest.attributes "Main-Class": "com.smth.Main"
-}
-
+/** Configure the dependencies for the project **/
 dependencies {
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
-
     // https://mvnrepository.com/artifact/junit/junit
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+/** Configures the jar export properties. In this case, it adds a new attribute in the manifest **/
+jar {
+    //Ads compile time dependencies to the runnable jar exported in 'libs'
+    from configurations.compile.collect {zipTree it}
+    manifest.attributes "Main-Class": "com.smth.Main"
+}
 
 
 
